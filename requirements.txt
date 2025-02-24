@@ -1,0 +1,8 @@
+gradio
+langchain-community
+langchain-openai
+langchain-chroma>=0.1.2
+pypdf
+langchain-text-splitters
+toml
+langchain_google_genai
