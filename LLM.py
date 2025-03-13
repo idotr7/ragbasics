@@ -232,6 +232,8 @@ class GeminiWithCache:
         """
         # Initialize Google Generative AI client
         api_key = api_key or os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError("Google API key is required. Set GOOGLE_API_KEY environment variable or pass api_key parameter.")
         genai.configure(api_key=api_key)
         
         self.model = model

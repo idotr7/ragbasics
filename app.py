@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import time
-from typing import Any, Iterator, Dict, Optional
+from typing import Any, Iterator, Dict, Optional, Union
 
 import gradio as gr
 
@@ -14,6 +14,7 @@ from langchain_core.runnables import RunnablePassthrough, Runnable, RunnableConf
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_voyageai import VoyageAIEmbeddings
+from pydantic import SecretStr
 from chunking import Chunker
 
 # Import the prompt caching implementations
@@ -59,11 +60,14 @@ logger = logging.getLogger(__name__)
 vector_store = None
 cache_enabled = False
 llm_provider = "google"  # Default provider
-cached_llm = None
+cached_llm: Optional[Union[OpenAIWithCache, GeminiWithCache, ClaudeWithCache]] = None
 
 # Initialize language model and embeddings with streaming capability
 # llm = ChatOpenAI(model="gpt-4o-mini", streaming=True)  # OpenAI
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", api_key="AIzaSyA0IOAcvniHJArb_FIeW_2ryqxNMFPu1OM") # Google
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash", 
+    api_key=SecretStr(os.getenv("GOOGLE_API_KEY") or "")
+) # Google
 
 # embedding = OpenAIEmbeddings(model="text-embedding-3-small")
 embedding = VoyageAIEmbeddings(
