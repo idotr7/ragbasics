@@ -6,3 +6,13 @@ pypdf
 langchain-text-splitters
 toml
 langchain_google_genai
+fastapi
+uvicorn[standard]
+ragas
+pandas
+# New requirements for prompt caching
+openai
+google-generativeai
+anthropic
+pymupdf
+python-dotenv
